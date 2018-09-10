@@ -41,7 +41,7 @@ function collectioner(arr, res, err){
 }
 
 app.get('/', function(req, res){
-  res.send('server is running');
+  res.send('index.html');
 });
 
 app.get('/teste', function(req, res){
