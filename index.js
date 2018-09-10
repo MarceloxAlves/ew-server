@@ -1,11 +1,14 @@
 'use strict';
-const app = require('express')();
-const http = require('http').Server(app);
+const express = require('express');
+const http = require('http').Server(index);
 const io = require('socket.io')(http);
 const cors = require('cors')
 var bodyParser = require('body-parser');
 
-app.use(bodyParser.json());
+var index = express();
+index.set('port',(process.env.PORT || 5000))
+
+index.use(bodyParser.json());
 
 const  Professor = require('./models/Professor');
 const  Sala = require('./models/Sala');
@@ -29,7 +32,7 @@ var corsOptions = {
   maxAge: 3600
 }
 
-// app.use(function(req, res, next) {
+// index.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "http://localhost:8080");
 //   res.header('Access-Control-Allow-Methods', 'DELETE, PUT, GET, POST');
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -40,15 +43,15 @@ function collectioner(arr, res, err){
 
 }
 
-app.get('/', function(req, res){
+index.get('/', function(req, res){
   res.send('index.html');
 });
 
-app.get('/teste', function(req, res){
+index.get('/teste', function(req, res){
     res.json('server is running');
 });
 
-app.get('/professor', function(req, res, next) {
+index.get('/professor', function(req, res, next) {
   let prof  =  Professor.construct()
   prof.find(function (err, professores) {
     if (err) return next(err);
@@ -56,7 +59,7 @@ app.get('/professor', function(req, res, next) {
     });
 });
 
-app.get('/professor/:email', function(req, res, next) {
+index.get('/professor/:email', function(req, res, next) {
   let professor  =  Professor.construct()
   professor.find('first',{where: "email= '"+ req.params.email+"'"}, function(err, row) {
     res.json(row);
@@ -64,7 +67,7 @@ app.get('/professor/:email', function(req, res, next) {
 
 });
 
-app.post('/professor/salvar', function(req, res, next) {
+index.post('/professor/salvar', function(req, res, next) {
   let professor  =  Professor.construct(req.body)
   let existe = false
   professor.find('first',{where: "email= '"+ req.body.email+"'"}, function(err, row) {
@@ -81,7 +84,7 @@ app.post('/professor/salvar', function(req, res, next) {
   });
 });
 
-app.post('/professor/login', function(req, res, next) {
+index.post('/professor/login', function(req, res, next) {
   let professor  =  Professor.construct(req.body)
   let existe = false
   professor.find('first',{where: "email= '"+ req.body.email+"' and senha = '"+req.body.senha+"'"}, function(err, row) {
@@ -95,7 +98,7 @@ app.post('/professor/login', function(req, res, next) {
 });
 
 
-app.get('/usuario/:username', function(req, res, next) {
+index.get('/usuario/:username', function(req, res, next) {
   let user  =  User.construct()
   user.find('first',{where: "username= '"+ req.params.username+"'"}, function(err, row) {
     res.json(row);
@@ -103,7 +106,7 @@ app.get('/usuario/:username', function(req, res, next) {
 
 });
 
-app.post('/usuario/salvar', function(req, res, next) {
+index.post('/usuario/salvar', function(req, res, next) {
   let user  =  User.construct(req.body)
   let existe = false
   user.find('first',{where: "username= '"+ req.body.username+"'"}, function(err, row) {
@@ -120,7 +123,7 @@ app.post('/usuario/salvar', function(req, res, next) {
   });
 });
 
-app.post('/usuario/login', function(req, res, next) {
+index.post('/usuario/login', function(req, res, next) {
   let user  =  User.construct(req.body)
   let existe = false
   user.find('first',{where: "username= '"+ req.body.username+"' and senha = '"+req.body.senha+"'"}, function(err, row) {
@@ -134,7 +137,7 @@ app.post('/usuario/login', function(req, res, next) {
 });
 
 
-app.get('/sala', function(req, res, next) {
+index.get('/sala', function(req, res, next) {
   let sala  =  Sala.construct()
   sala.find(function (err, salas) {
     if (err) return next(err);
@@ -152,7 +155,7 @@ app.get('/sala', function(req, res, next) {
   });
 });
 
-app.post('/sala/salvar', function(req, res, next) {
+index.post('/sala/salvar', function(req, res, next) {
   let body = req.body
   let sala  =  Sala.construct(body)
     sala.save(function (err, post) {
@@ -203,6 +206,6 @@ io.on("connection", function (client) {
   });
 });
 
-http.listen(3000, function(){
+http.listen('port', function(){
   console.log('listening on port 3000');
 });
