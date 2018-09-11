@@ -81,34 +81,11 @@ app.post('/usuario/login', function(req, res, next) {
 
 
 app.get('/sala', function(req, res, next) {
-  let sala  =  Sala.construct()
-  sala.find(function (err, salas) {
-    if (err) return next(err);
-    let professor =  Professor.construct({})
-
-    for (let i = 0; i < salas.length ; i++) {
-      professor.find('first',{where: "codigo='"+ salas[i].professor+"'"}, function(err, row) {
-          salas[i].professor = row
-          if (i ==  (salas.length-1)){
-             res.json(salas)
-          }
-      });
-    }
-
-  });
+   Sala.listar(res)
 });
 
 app.post('/sala/salvar', function(req, res, next) {
-  let body = req.body
-  let sala  =  Sala.construct(body)
-    sala.save(function (err, post) {
-      if (err) {
-        res.json(err.toLocaleString())
-        return next(err);
-      }
-      console.log("Sala Cadastrada")
-      res.json(request.success(post));
-    });
+    Sala.adicionar(res, req.body)
 });
 
 
