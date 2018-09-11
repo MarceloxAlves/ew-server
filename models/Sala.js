@@ -19,7 +19,7 @@ module.exports  = {
             return AppModel.conn().query(sql, function (error, results, fields) {
                 if (error) throw error;
                 for (let i = 0; i < results.length ; i++) {
-                    AppModel.conn().query(sql, function (error, result) {
+                    AppModel.conn().query("SELECT * FROM professor WHERE codigo = '"+results[i].professor+"'", function (error, result) {
                         results[i].professor = result[0]
                         if (i ==  (results.length-1)){
                             res.json(results)
