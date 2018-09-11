@@ -1,9 +1,13 @@
-const  mysql = require('mysql-model');
+const  mysql = require('mysql');
 module.exports  = {
-  construct: function(table) {
-   let appmodel =  mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
-    return  appmodel.extend({
-      tableName: table,
-    });
-  }
+    conn: function()
+    { return mysql.createConnection(
+        {
+            host: 'us-cdbr-iron-east-01.cleardb.net',
+            user: 'bb6bfbd1c0665c',
+            password: '67de256c',
+            database: 'heroku_a5a34aebadf4cbd',
+            debug    :  false,
+        });
+    }
 }

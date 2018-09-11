@@ -7,8 +7,6 @@ const io = require('socket.io')(http);
 const cors = require('cors')
 var bodyParser = require('body-parser');
 
-
-
 app.use(bodyParser.json());
 
 const  Professor = require('./models/Professor');
@@ -53,88 +51,32 @@ app.get('/teste', function(req, res){
 });
 
 app.get('/professor', function(req, res, next) {
-  let prof  =  Professor.construct()
-  prof.find(function (err, professores) {
-    if (err) return next(err);
-    res.json(professores);
-    });
+    Professor.listar(res);
 });
 
 app.get('/professor/:email', function(req, res, next) {
-  let professor  =  Professor.construct()
-  professor.find('first',{where: "email= '"+ req.params.email+"'"}, function(err, row) {
-    res.json(row);
-  });
-
+  Professor.getByEmail(res, req.params.email)
 });
 
 app.post('/professor/salvar', function(req, res, next) {
-  let professor  =  Professor.construct(req.body)
-  let existe = false
-  professor.find('first',{where: "email= '"+ req.body.email+"'"}, function(err, row) {
-    if(row.codigo > 0) existe = true;
-    if (existe){
-      res.json(request.error("Usuário já cadastrado"));
-    }else {
-      professor.save(function (err, post) {
-        if (err) return next(err);
-        console.log("Usuário Cadastrado")
-        res.json(request.success(post));
-      });
-    }
-  });
+  Professor.adicionar(res, req.body)
 });
 
 app.post('/professor/login', function(req, res, next) {
-  let professor  =  Professor.construct(req.body)
-  let existe = false
-  professor.find('first',{where: "email= '"+ req.body.email+"' and senha = '"+req.body.senha+"'"}, function(err, row) {
-    if (row.codigo > 0){
-      professor.setSQL(row)
-      return res.json(request.success(professor))
-    }else{
-      return res.json(request.error("Dados de acesso inválido!"))
-    }
-  });
+ Professor.construct(res, req.body.email, req.body.senha)
 });
 
 
 app.get('/usuario/:username', function(req, res, next) {
-  let user  =  User.construct()
-  user.find('first',{where: "username= '"+ req.params.username+"'"}, function(err, row) {
-    res.json(row);
-  });
-
+  User.getByUsername(res, req.params.username)
 });
 
 app.post('/usuario/salvar', function(req, res, next) {
-  let user  =  User.construct(req.body)
-  let existe = false
-  user.find('first',{where: "username= '"+ req.body.username+"'"}, function(err, row) {
-    if(row.codigo > 0) existe = true;
-    if (existe){
-      res.json(request.error("Usuário já cadastrado"));
-    }else {
-      user.save(function (err, post) {
-        if (err) return next(err);
-        console.log("Usuário Cadastrado")
-        res.json(request.success(post));
-      });
-    }
-  });
+  User.adicionar(res, req.body)
 });
 
 app.post('/usuario/login', function(req, res, next) {
-  let user  =  User.construct(req.body)
-  let existe = false
-  user.find('first',{where: "username= '"+ req.body.username+"' and senha = '"+req.body.senha+"'"}, function(err, row) {
-    if (row.codigo > 0){
-      user.setSQL(row)
-      return res.json(request.success(user))
-    }else{
-      return res.json(request.error("Dados de acesso inválido!"))
-    }
-  });
+  User.login(res,req.body.username, req.body.senha)
 });
 
 
