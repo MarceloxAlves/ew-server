@@ -43,7 +43,7 @@ function collectioner(arr, res, err){
 }
 
 app.get('/', function(req, res){
-  res.send('index.html');
+  res.send("<h1>Server is Running</h1>");
 });
 
 app.get('/teste', function(req, res){
@@ -59,10 +59,18 @@ app.get('/professor/:email', function(req, res, next) {
 });
 
 app.post('/professor/salvar', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", true);
   Professor.adicionar(res, req.body)
 });
 
 app.post('/professor/login', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'POST');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", true);
  Professor.construct(res, req.body.email, req.body.senha)
 });
 
