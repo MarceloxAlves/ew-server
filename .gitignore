@@ -38,6 +38,18 @@ build/Release
 
 # Dependency directories
 node_modules/
+app/node_modules/
+app/build/
+app/src/
+app/static/
+app/test/
+app/.babelrc
+app/.editorconfig
+app/.gitignore
+app/.postcssrc.js
+app/index.html
+app/package.json
+app/package-lock.json
 jspm_packages/
 
 # TypeScript v1 declaration files
