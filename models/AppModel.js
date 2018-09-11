@@ -3,10 +3,10 @@ module.exports  = {
     conn: function()
     { return mysql.createConnection(
         {
-            host: 'us-cdbr-iron-east-01.cleardb.net',
-            user: 'bb6bfbd1c0665c',
-            password: '67de256c',
-            database: 'heroku_a5a34aebadf4cbd',
+            host: '31.170.161.231',
+            user: 'itranspa_marcelo',
+            password: 'Marcelo10',
+            database: 'itranspa_editworld',
             debug    :  false,
         });
     }
