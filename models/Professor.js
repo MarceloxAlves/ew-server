@@ -56,7 +56,7 @@ module.exports  = {
     login : function (res, email, senha) {
         AppModel.conn().connect(function(err) {
             if (err) throw err;
-            var sql = "SELECT * from professor where email = '"+email+"' and senha '"+senha+"'";
+            var sql = "SELECT * from professor where email = '"+email+"' and senha  = '"+senha+"'";
             return AppModel.conn().query(sql, function (error, results, fields) {
                 if (error) throw error;
                 if (results.length > 0){
