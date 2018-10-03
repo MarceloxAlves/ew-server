@@ -7,6 +7,7 @@ const cors = require('cors')
 var bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use(cors())
 
 const  Professor = require('./models/Professor');
 const  Sala = require('./models/Sala');
