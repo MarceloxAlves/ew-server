@@ -66,6 +66,9 @@ app.post('/professor/login', function(req, res, next) {
     Professor.login(res, req.body.email, req.body.senha)
 });
 
+app.get('/usuario', function(req, res, next) {
+    User.listar(res);
+});
 
 app.get('/usuario/:username', function(req, res, next) {
   User.getByUsername(res, req.params.username)

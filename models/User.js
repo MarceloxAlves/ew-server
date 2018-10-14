@@ -25,7 +25,7 @@ module.exports  = {
         let collection;
         AppModel.conn().connect(function(err) {
             if (err) throw err;
-            var sql = "SELECT * from professor";
+            var sql = "SELECT * from usuario";
             return AppModel.conn().query(sql, function (error, results, fields) {
                 if (error) throw error;
                 res.json(results)
