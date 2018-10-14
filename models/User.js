@@ -51,6 +51,8 @@ module.exports  = {
         AppModel.conn().connect(function(err) {
             if (err) throw err;
             var sql = "SELECT * from usuario where username = '"+username+"' and senha =  '"+senha+"'";
+
+            console.log(sql)
             return AppModel.conn().query(sql, function (error, results, fields) {
                 if (error) throw error;
                 if (results.length > 0){
