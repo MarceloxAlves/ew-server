@@ -29,6 +29,22 @@ module.exports  = {
             });
         });
     },
+    my_class : function (res, username) {
+        AppModel.conn().connect(function(err) {
+            if (err) throw err;
+            var sql = "SELECT sala.codigo, sala.descricao, (SELECT professor.nome FROM professor WHERE professor.codigo = sala.professor) as professor, sala.ativa FROM sala JOIN usuario_sala JOIN usuario on usuario_sala.sala_id = sala.codigo and\n" +
+                "usuario_sala.usuario_id = usuario.codigo WHERE username = '"+username+"'";
+            return AppModel.conn().query(sql, function (error, results, fields) {
+                if (error) throw error;
+                if (results.length > 0){
+                        res.json(request.success(results))
+                }else{
+                    res.json(request.success([]));
+                }
+            });
+
+        });
+    }
 
 }
 

@@ -6,6 +6,7 @@ module.exports  = {
     };
   },
   error: function(msg) {
+    if (msg == null) msg = "Error no servidor"
     return {
       "status": 'error',
       "msg": msg

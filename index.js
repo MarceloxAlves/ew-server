@@ -47,87 +47,113 @@ app.get('/', function(req, res){
 });
 
 app.get('/teste', function(req, res){
-    res.json('server is running');
+    try {
+        res.json('server is running');
+    } catch (ex) {
+        res.json(request.error("Error") );
+    }
+
 });
 
 app.get('/professor', function(req, res, next) {
-    Professor.listar(res);
+    try {
+        Professor.listar(res);
+    }catch (e) {
+        res.json(request.error("Erro ao listar os professores"))
+    }
 });
 
 app.get('/professor/:email', function(req, res, next) {
-  Professor.getByEmail(res, req.params.email)
+  try{
+    Professor.getByEmail(res, req.params.email)
+  }catch (e) {
+      res.json(request.error("Erro ao encontrar professor por email"))
+  }
 });
 
 app.post('/professor/salvar', function(req, res, next) {
-  Professor.adicionar(res, req.body)
+  try{
+    Professor.adicionar(res, req.body)
+  }catch (e) {
+      res.json(request.error("Erro ao adicionar professor"))
+  }
 });
 
 app.post('/professor/login', function(req, res, next) {
-    Professor.login(res, req.body.email, req.body.senha)
+    try{
+        Professor.login(res, req.body.email, req.body.senha)
+    }catch (e) {
+        res.json(request.error("Erro ao fazer login"))
+    }
 });
 
 app.get('/usuario', function(req, res, next) {
-    User.listar(res);
+    try{
+        User.listar(res);
+    }catch (e) {
+        res.json(request.error("Erro ao listar usuários"))
+    }
 });
 
 app.get('/usuario/:username', function(req, res, next) {
-  User.getByUsername(res, req.params.username)
+    try{
+        User.getByUsername(res, req.params.username)
+    }catch (e) {
+        res.json(request.error("Não foi possível pegar o usuário " + req.params.username))
+    }
 });
 
 app.post('/usuario/salvar', function(req, res, next) {
-  User.adicionar(res, req.body)
+    try{
+        User.adicionar(res, req.body)
+    }catch (e) {
+        res.json(request.error("Erro ao salvar usuário"))
+    }
 });
 
 app.post('/usuario/login', function(req, res, next) {
-  User.login(res,req.body.username, req.body.senha)
+    try{
+        User.login(res,req.body.username, req.body.senha)
+    }catch (e) {
+        res.json(request.error("Erro ao fazer o login"))
+    }
 });
 
 
 app.get('/sala', function(req, res, next) {
-   Sala.listar(res)
+    try{
+        Sala.listar(res)
+    }catch (e) {
+        res.json(request.error("Erro ao listar salas"))
+    }
 });
 
 app.post('/sala/salvar', function(req, res, next) {
-    Sala.adicionar(res, req.body)
+    try {
+        Sala.adicionar(res, req.body)
+    }catch (e) {
+        res.json(request.error("Erro salvar sala"))
+    }
+});
+
+app.get('/sala/:username', function(req, res, next) {
+    try{
+        Sala.my_class(res,req.params.username)
+    }catch (e) {
+        res.json(request.error("Erros ao listar salas do usuário " + req.params.username))
+    }
 });
 
 
-io.on("connection", function (client) {
-  client.on("join", function(name){
-    console.log("Joined: " + name);
-    clients[client.id] = name;
-    client.emit("update","an event sent to all connected clients");
-    client.broadcast.emit("update", name + " Está online")
-  });
-
-  client.on("professor-cadastrar", function (object) {
-    client.emit('saved', result )
-  });
-
-  client.on("logar", function(user){
-    console.log("Logando....." + user);
-    client.emit("logado", {
-      connected: true,
-       professor:{
-        username: user,
-        id: "001"
-      }
-    });
-  });
-
-
-  client.on("send", function(msg){
-    console.log("Message: " + msg);
-    client.broadcast.emit("chat", clients[client.id], msg);
-  });
-
-
-  client.on("disconnect", function(){
-    console.log("Disconnect");
-    io.emit("update", clients[client.id] + " has left the server.");
-    delete clients[client.id];
-  });
-});
+// io.on("connection", function (client) {
+//   client.on("join", function(name){
+//     console.log("Joined: " + name);
+//     clients[client.id] = name;
+//     client.emit("update","an event sent to all connected clients");
+//     client.broadcast.emit("update", name + " Está online")
+//   });
+//
+// });
 
 http.listen(process.env.PORT || 3000, function(){
   console.log('listening on port 3000');
