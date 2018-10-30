@@ -52,6 +52,7 @@ module.exports  = {
             var sql = "SELECT * from usuario where username = '"+username+"' and senha =  '"+senha+"'";
             console.log(sql)
             return AppModel.conn().query(sql, function (error, results, fields) {
+                AppModel.conn().release();
                 if (error) res.json(request.error("Não foi possível fazer login!"))
                 if (results.length > 0){
                     return res.json(request.success(results[0]))
