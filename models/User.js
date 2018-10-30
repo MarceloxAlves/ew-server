@@ -47,17 +47,25 @@ module.exports  = {
         });
     },
     login : function (res, username, senha) {
-        AppModel.conn().connect(function(err) {
-            if (err) res.json(request.error("Não foi possível fazer login!"))
-            var sql = "SELECT * from usuario where username = '"+username+"' and senha =  '"+senha+"'";
-            return AppModel.conn().query(sql, function (error, results, fields) {
-                if (error) res.json(request.error("Não foi possível fazer login!"))
-                if (results.length > 0){
-                    return res.json(request.success(results[0]))
-                }else{
-                    return res.json(request.error("Dados de acesso inválido!"))
-                }
-            });
-        });
+
+        res.json(request.success({
+            "codigo": 1,
+            "nome": "",
+            "username": username,
+            "senha": senha,
+            "email": "marceloalvessoft@gmail.com"
+        }))
+        // AppModel.conn().connect(function(err) {
+        //     if (err) res.json(request.error("Não foi possível fazer login!"))
+        //     var sql = "SELECT * from usuario where username = '"+username+"' and senha =  '"+senha+"'";
+        //     return AppModel.conn().query(sql, function (error, results, fields) {
+        //         if (error) res.json(request.error("Não foi possível fazer login!"))
+        //         if (results.length > 0){
+        //             return res.json(request.success(results[0]))
+        //         }else{
+        //             return res.json(request.error("Dados de acesso inválido!"))
+        //         }
+        //     });
+        // });
     }
 }
