@@ -3,7 +3,7 @@ module.exports  = {
     conn: function()
     { return mysql.createConnection(
         {
-            host: '31.170.161.231',
+            host: 'cpl04.main-hosting.eu',
             user: 'itranspa_marcelo',
             password: 'Marcelo10',
             database: 'itranspa_editworld',
